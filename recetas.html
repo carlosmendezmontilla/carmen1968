@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venezuela en tu Mesa: Infografía Interactiva</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&family=Yellowtail&family=Montserrat:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #F5F5DC; /* Creamy Dough */
+            color: #1A3A5F; /* Deep Atlantic Blue */
+        }
+
+        h1, h2, h3 {
+            font-family: 'League Spartan', sans-serif;
+        }
+
+        .handwritten {
+            font-family: 'Yellowtail', cursive;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+        
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s;
+        }
+
+        .card-shadow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .venezuela-gradient {
+            background: linear-gradient(135deg, #F4B400 0%, #F4B400 33%, #1A3A5F 33%, #1A3A5F 66%, #A52A2A 66%, #A52A2A 100%);
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Header Section -->
+    <header class="w-full bg-[#1A3A5F] text-white py-8 shadow-xl relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-2 venezuela-gradient"></div>
+        <div class="container mx-auto px-4 text-center z-10 relative">
+            <h1 class="text-4xl md:text-6xl font-bold mb-2 text-[#F4B400]">Venezuela en tu Mesa</h1>
+            <p class="text-xl md:text-2xl font-light italic handwritten text-[#F5F5DC]">10 Recetas Tradicionales Infalibles</p>
+            <p class="mt-4 max-w-2xl mx-auto text-sm md:text-base opacity-90 font-light">
+                Descubre los secretos de la gastronomía venezolana. Un viaje de sabores desde los Andes hasta la Costa, diseñado para cocinar con el corazón y conquistar paladares.
+            </p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
+
+        <!-- Introduction KPI -->
+        <section class="col-span-1 md:col-span-2 lg:col-span-12 mb-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-xl p-6 card-shadow text-center border-t-4 border-[#F4B400]">
+                    <span class="text-5xl font-bold text-[#1A3A5F]">10</span>
+                    <p class="text-gray-600 font-semibold mt-2">Recetas Icónicas</p>
+                    <p class="text-xs text-gray-500 mt-1">Seleccionadas por popularidad</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 card-shadow text-center border-t-4 border-[#1A3A5F]">
+                    <span class="text-5xl font-bold text-[#A52A2A]">5</span>
+                    <p class="text-gray-600 font-semibold mt-2">Regiones Culinarias</p>
+                    <p class="text-xs text-gray-500 mt-1">Andes, Llanos, Zulia, Centro, Costa</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 card-shadow text-center border-t-4 border-[#A52A2A]">
+                    <span class="text-5xl font-bold text-[#F4B400]">100%</span>
+                    <p class="text-gray-600 font-semibold mt-2">Sabor Criollo</p>
+                    <p class="text-xs text-gray-500 mt-1">Garantía de tradición</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: Ingredients (Doughnut Chart) -->
+        <section class="col-span-1 md:col-span-1 lg:col-span-6 bg-white rounded-xl shadow-lg p-6 border-l-4 border-[#F4B400]">
+            <h2 class="text-2xl font-bold text-[#1A3A5F] mb-2">La Base del Sabor</h2>
+            <p class="text-sm text-gray-600 mb-6">
+                El maíz es el oro de la cocina venezolana. Analizamos los ingredientes principales de las 10 recetas del eBook para revelar el ADN de nuestra gastronomía.
+            </p>
+            <div class="chart-container">
+                <canvas id="ingredientsChart"></canvas>
+            </div>
+            <div class="mt-4 text-center">
+                <span class="inline-block px-3 py-1 bg-[#F4B400] text-white text-xs rounded-full mr-2">Maíz: El Rey</span>
+                <span class="inline-block px-3 py-1 bg-[#1A3A5F] text-white text-xs rounded-full">Queso: El Alma</span>
+            </div>
+        </section>
+
+        <!-- Section 2: Regional Map (Bar Chart) -->
+        <section class="col-span-1 md:col-span-1 lg:col-span-6 bg-white rounded-xl shadow-lg p-6 border-l-4 border-[#A52A2A]">
+            <h2 class="text-2xl font-bold text-[#1A3A5F] mb-2">Ruta Gastronómica</h2>
+            <p class="text-sm text-gray-600 mb-6">
+                Aunque la Arepa es nacional, cada región aporta su especialidad. Desde el frío de los Andes hasta el calor del Zulia.
+            </p>
+            <div class="chart-container">
+                <canvas id="regionalChart"></canvas>
+            </div>
+             <div class="mt-4 text-center">
+                <p class="text-xs italic text-gray-500">La "Pisca Andina" es única de las montañas, mientras que el Pabellón une a todo el país.</p>
+            </div>
+        </section>
+
+        <!-- Section 3: Meal Times (Polar Area) -->
+        <section class="col-span-1 md:col-span-2 lg:col-span-4 bg-white rounded-xl shadow-lg p-6 border-t-4 border-[#1A3A5F]">
+            <h2 class="text-xl font-bold text-[#1A3A5F] mb-2">¿Cuándo comemos?</h2>
+            <p class="text-sm text-gray-600 mb-4">
+                El desayuno venezolano es famoso por ser abundante. Aquí mostramos cómo se distribuyen nuestras 10 recetas según el momento del día.
+            </p>
+            <div class="chart-container" style="height: 300px;">
+                <canvas id="mealTimeChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Section 4: Process Flow (HTML/CSS) -->
+        <section class="col-span-1 md:col-span-2 lg:col-span-8 bg-white rounded-xl shadow-lg p-6 border-t-4 border-[#A52A2A]">
+            <h2 class="text-2xl font-bold text-[#1A3A5F] mb-4">Anatomía del Pabellón Criollo</h2>
+            <p class="text-sm text-gray-600 mb-6">
+                El plato nacional es un equilibrio perfecto de sabores y texturas. No es solo mezclar ingredientes, es un ritual de ensamblaje.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+                <!-- Step 1 -->
+                <div class="relative p-4 bg-gray-50 rounded-lg border border-gray-200 hover:bg-[#E3F2FD] transition-colors">
+                    <div class="text-4xl mb-2">🥩</div>
+                    <h3 class="font-bold text-[#A52A2A]">Carne Mechada</h3>
+                    <p class="text-xs text-gray-500">Falda de res guisada con sofrito criollo.</p>
+                    <div class="hidden md:block absolute top-1/2 -right-3 transform -translate-y-1/2 text-gray-400 text-xl">➔</div>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="relative p-4 bg-gray-50 rounded-lg border border-gray-200 hover:bg-[#E3F2FD] transition-colors">
+                    <div class="text-4xl mb-2">🥘</div>
+                    <h3 class="font-bold text-[#1A3A5F]">Caraotas Negras</h3>
+                    <p class="text-xs text-gray-500">Frijoles con toque dulce (opcional) y comino.</p>
+                    <div class="hidden md:block absolute top-1/2 -right-3 transform -translate-y-1/2 text-gray-400 text-xl">➔</div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative p-4 bg-gray-50 rounded-lg border border-gray-200 hover:bg-[#E3F2FD] transition-colors">
+                    <div class="text-4xl mb-2">🍚</div>
+                    <h3 class="font-bold text-gray-700">Arroz Blanco</h3>
+                    <p class="text-xs text-gray-500">Suelto y neutro para equilibrar.</p>
+                    <div class="hidden md:block absolute top-1/2 -right-3 transform -translate-y-1/2 text-gray-400 text-xl">➔</div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="p-4 bg-[#FFF8E1] rounded-lg border border-[#F4B400] shadow-sm">
+                    <div class="text-4xl mb-2">🍌</div>
+                    <h3 class="font-bold text-[#F4B400]">Tajadas</h3>
+                    <p class="text-xs text-gray-500">Plátano maduro frito. El toque dulce final.</p>
+                </div>
+            </div>
+            
+            <div class="mt-6 p-4 bg-blue-50 rounded-lg border-l-4 border-[#1A3A5F]">
+                <p class="text-sm italic text-[#1A3A5F]">
+                    <span class="font-bold">Dato del Guía:</span> Al día siguiente, si mezclas el arroz, la carne y las caraotas y lo fríes, se convierte en "Calentado", uno de los mejores desayunos andinos.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 5: Complexity Matrix (Scatter Plot) -->
+        <section class="col-span-1 md:col-span-2 lg:col-span-12 bg-white rounded-xl shadow-lg p-6 border-b-4 border-[#F4B400]">
+            <h2 class="text-2xl font-bold text-[#1A3A5F] mb-2">Matriz de Esfuerzo vs. Sabor</h2>
+            <p class="text-sm text-gray-600 mb-6">
+                ¿Tienes poco tiempo o quieres impresionar? Este gráfico te ayuda a elegir qué receta del eBook preparar hoy.
+            </p>
+            <div class="chart-container">
+                <canvas id="complexityChart"></canvas>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mt-4 text-xs text-gray-500 text-center">
+                <div>⬅️ Rápido y Fácil</div>
+                <div>Lento y Elaborado ➡️</div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[#1A3A5F] text-white py-8 mt-8">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-2xl font-bold font-handwritten mb-4 text-[#F4B400]">Buen Provecho</h2>
+            <p class="text-sm opacity-75 mb-4">Esta infografía complementa el eBook "Venezuela en tu Mesa".</p>
+            <div class="flex justify-center space-x-4 text-2xl">
+                <span>🌽</span><span>🥑</span><span>🥥</span>
+            </div>
+            <p class="text-xs mt-8 opacity-50">Diseñado con 💛💙❤️ para amantes de la cocina.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- UTILITY FUNCTIONS ---
+        
+        // Label wrapping logic for Chart.js (Strict 16 char limit)
+        function splitLabel(label) {
+            if (typeof label !== 'string' || label.length <= 16) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + " " + words[i]).length <= 16) {
+                    currentLine += " " + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // Common Chart Options
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        font: { family: 'Montserrat', size: 12 },
+                        usePointStyle: true,
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(26, 58, 95, 0.9)',
+                    titleFont: { family: 'Montserrat', size: 14, weight: 'bold' },
+                    bodyFont: { family: 'Montserrat', size: 12 },
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            } else {
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        // --- DATA ---
+        
+        // Recipes Data
+        const recipes = [
+            { name: "Arepa Reina Pepiada", region: "Capital", main: "Maíz", time: 45, taste: 9.5, type: "Desayuno/Cena" },
+            { name: "Empanada de Carne", region: "Costa/General", main: "Maíz", time: 60, taste: 9.0, type: "Desayuno" },
+            { name: "Pabellón Criollo", region: "Nacional", main: "Arroz/Carne", time: 120, taste: 10, type: "Almuerzo" },
+            { name: "Asado Negro", region: "Capital", main: "Carne", time: 180, taste: 9.8, type: "Almuerzo" },
+            { name: "Cachapa de Budare", region: "Llanos", main: "Maíz", time: 40, taste: 9.2, type: "Cualquiera" },
+            { name: "Tequeños", region: "General", main: "Trigo/Queso", time: 90, taste: 9.9, type: "Pasapalo" },
+            { name: "Pisca Andina", region: "Andes", main: "Papa/Leche", time: 30, taste: 8.5, type: "Desayuno" },
+            { name: "Pollo Guisado", region: "Hogar", main: "Pollo", time: 50, taste: 8.0, type: "Almuerzo" },
+            { name: "Mandocas", region: "Zulia", main: "Maíz/Plátano", time: 45, taste: 8.8, type: "Merienda" },
+            { name: "Quesillo", region: "General", main: "Huevo/Leche", time: 70, taste: 9.6, type: "Postre" }
+        ];
+
+        // --- CHART 1: INGREDIENTS (DOUGHNUT) ---
+        const ctxIngredients = document.getElementById('ingredientsChart').getContext('2d');
+        const ingredientData = {
+            labels: ["Maíz (Arepa, Cachapa)", "Carne/Pollo", "Queso/Lácteos", "Plátano", "Trigo"],
+            datasets: [{
+                data: [4, 3, 3, 2, 1], // Weight in the 10 recipes
+                backgroundColor: [
+                    '#F4B400', // Yellow (Corn)
+                    '#A52A2A', // Red (Meat)
+                    '#F5F5DC', // Cream (Cheese) - using a darker border to see it
+                    '#FFA000', // Orange (Plantain)
+                    '#8D6E63'  // Brown (Wheat)
+                ],
+                borderColor: '#ffffff',
+                borderWidth: 2
+            }]
+        };
+
+        // Process labels
+        ingredientData.labels = ingredientData.labels.map(splitLabel);
+
+        new Chart(ctxIngredients, {
+            type: 'doughnut',
+            data: ingredientData,
+            options: {
+                ...commonOptions,
+                cutout: '60%',
+                plugins: {
+                    ...commonOptions.plugins,
+                    legend: { position: 'right' }
+                }
+            }
+        });
+
+        // --- CHART 2: REGIONAL (BAR) ---
+        const ctxRegional = document.getElementById('regionalChart').getContext('2d');
+        const regionData = {
+            labels: ["Nacional/General", "Capital (Caracas)", "Los Andes", "Zulia", "Llanos"],
+            datasets: [{
+                label: 'Recetas por Región',
+                data: [4, 2, 1, 1, 2],
+                backgroundColor: '#1A3A5F',
+                borderRadius: 5
+            }]
+        };
+        
+        regionData.labels = regionData.labels.map(splitLabel);
+
+        new Chart(ctxRegional, {
+            type: 'bar',
+            data: regionData,
+            options: {
+                ...commonOptions,
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 1 } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // --- CHART 3: MEAL TIMES (POLAR AREA) ---
+        const ctxMeal = document.getElementById('mealTimeChart').getContext('2d');
+        const mealData = {
+            labels: ["Desayuno", "Almuerzo", "Cena", "Merienda/Pasapalo", "Postre"],
+            datasets: [{
+                data: [4, 3, 2, 2, 1], // Some overlap allowed
+                backgroundColor: [
+                    'rgba(244, 180, 0, 0.8)',  // Yellow
+                    'rgba(165, 42, 42, 0.8)',  // Red
+                    'rgba(26, 58, 95, 0.8)',   // Blue
+                    'rgba(76, 175, 80, 0.8)',  // Green
+                    'rgba(255, 152, 0, 0.8)'   // Orange
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        mealData.labels = mealData.labels.map(splitLabel);
+
+        new Chart(ctxMeal, {
+            type: 'polarArea',
+            data: mealData,
+            options: {
+                ...commonOptions,
+                scales: {
+                    r: { grid: { color: '#e0e0e0' }, ticks: { display: false } }
+                }
+            }
+        });
+
+        // --- CHART 4: COMPLEXITY (SCATTER) ---
+        const ctxComplex = document.getElementById('complexityChart').getContext('2d');
+        
+        // Prepare Scatter Data
+        const scatterPoints = recipes.map(r => ({
+            x: r.time,
+            y: r.taste,
+            r: 8, // Fixed radius for neatness
+            label: r.name
+        }));
+
+        const complexData = {
+            datasets: [{
+                label: 'Recetas',
+                data: scatterPoints,
+                backgroundColor: '#A52A2A',
+                borderColor: '#1A3A5F',
+                borderWidth: 1
+            }]
+        };
+
+        new Chart(ctxComplex, {
+            type: 'scatter',
+            data: complexData,
+            options: {
+                ...commonOptions,
+                scales: {
+                    x: { 
+                        title: { display: true, text: 'Tiempo (Minutos)' },
+                        grid: { display: false }
+                    },
+                    y: { 
+                        title: { display: true, text: 'Sabor / Popularidad (1-10)' },
+                        min: 7, max: 10.5 
+                    }
+                },
+                plugins: {
+                    ...commonOptions.plugins,
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const point = context.raw;
+                                return `${point.label}: ${point.x} min`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+    </script>
+    
+    <!-- 
+    Palette Confirmation: Venezuelan Sazón (#F4B400, #1A3A5F, #A52A2A)
+    Confirmation: NO SVG used. NO Mermaid JS used. All visuals via Chart.js Canvas or HTML/CSS.
+    -->
+</body>
+</html>
